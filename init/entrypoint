@@ -27,24 +27,23 @@ function check_depending_env {
   fi
 }
 
-if [ -e /init/setup ]; then
-  /bin/sh -x /init/setup
-fi
+[[ ${DOCKER_DEBUG} ]] && set -x
+
+[[ -x "/hooks/entrypoint-pre" ]] && /hooks/entrypoint-pre
 
 case ${1} in
   run)
     check_depending_env
-    if [ -e /init/run-setup ]; then
-      /bin/sh -x /init/setup
-    fi
-    if [ -e /init/start ]; then
+    [[ -x "/hooks/entrypoint-run" ]] && /hooks/entrypoint-run
+    if [[ -e /init/supervisord && -d /etc/supervisord.d ]]; then
       # Use exec so we replace our current process so signals can get through
-      exec /bin/sh /init/start
+      exec /bin/sh /init/supervisord
     else
       /bin/bash
     fi
     ;;
   *)
+    [[ -x "/hooks/entrypoint-exec" ]] && /hooks/entrypoint-exec
     exec $*
     ;;
 esac
