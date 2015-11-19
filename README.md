@@ -35,6 +35,7 @@ If you want your hook to be debuggable, look for the `DOCKER_DEBUG` variable. A 
 Hooks are only ran if they are executable.
 
 * `/hooks/entrypoint-pre`: Early in the entrypoint. Before we do anything.
+* `/hooks/setup`: Runs right after `entrypoint-pre`, are there for backwards compatibility and because its easy to remember. Note that this file does NOT need to be executable. We will make it +x automatically if it exists.
 * `/hooks/entrypoint-run`: Runs if `CMD` is not overridden. (ie, we are doing daemon-mode or spawns a default bash shell).
 * `/hooks/entrypoint-exec`: Runs only if `CMD` is overridden. Runs just before we execute `CMD`.
 * `/hooks/supervisord-pre`: Just before we fire up supervisord.
