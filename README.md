@@ -6,6 +6,8 @@ Each tag in this repository is getting build as it's corresponding docker-tag. T
 
 * 2015-11-18 - `7.1-1`: Intitial version
 
+* `test`: For testing :)
+
 # Ideas
 * Daemon-mode (supervisord) if we find supervisord files
 * supervisord conf, so we dont need to guess where the .sock file is
