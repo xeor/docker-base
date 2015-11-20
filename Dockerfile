@@ -2,7 +2,7 @@ FROM centos:centos7
 
 
 MAINTAINER Lars Solberg <lars.solberg@gmail.com>
-ENV REFRESHED_AT 2015-11-18
+ENV REFRESHED_AT 2015-11-20
 
 RUN yum upgrade -y && yum install -y epel-release && mkdir /tmp/sockets && \
     yum install -y python-pip && pip install --upgrade pip && \
