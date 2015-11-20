@@ -30,7 +30,7 @@ function check_depending_env {
 [[ ${DOCKER_DEBUG} ]] && set -x
 
 [[ -x "/hooks/entrypoint-pre" ]] && /hooks/entrypoint-pre
-[[ -f "/hooks/setup" ]] && ( chmod +x /hooks/setup; /hooks/setup; )
+[[ -f "/init/setup" ]] && ( chmod +x /init/setup; /init/setup; )
 
 case ${1} in
   run)
