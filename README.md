@@ -11,6 +11,14 @@ Use `FROM xeor/base` on top of your `Dockerfile` to use this base-image.
 * `SUPERVISORD_WAIT_TIME`: How long between each time we check if supervisord is alive and ready. Defaults to `0.2`
 * `SUPERVISORD_CHECK_EVERY`: Check if supervisord is alive ever `X` times. Defaults to `5`.
 * `SUPERVISORD_MAX_START_TRIES`: How many times should we check if supervisord have started before we give up. `0` is unlimited and default.
+* `DUID`: The UID of the already existing `docker` user.
+* `DGID`: The GID of the already existing `docker` group.
+
+## User
+There is a user created as default called `docker` belonging to a group called `docker`, both with GID and GID of `950`.
+We are not using it for anything as default, it is ment for in your supervisord.ini files, CMD, etc. You can change the UID and GID of this user when you start the container with setting the environment variables `DUID` and/or `DGID` to the ID you want the `docker` user/group to have.
+
+Note that setting `USER` to `docker` in a Dockerfile, then setting `DUID` and/or `DGID` on startup, wont work. It's our entrypoint file that sets the correct ID's on the docker-user, and if you start docker with another user, we wont have access. We will start, but you will get a warning.
 
 ## Daemon-mode
 If we find 1 or more `*.ini` files in `/etc/supervisord.d` we will use `supervisord` as a loader. A simple `COPY supervisord.d/ /etc/supervisord.d/` in your `Dockerfile` does the trick.
@@ -51,6 +59,8 @@ Each tag in this repository is getting build as it's corresponding docker-tag. T
 * `latest` is bound to the `master` branch. Careful using this :)
 
 * Changelog
+  * 2015-11-21 - `:7.1-4`: Fixing supervisorctl, it didnt work. Added sane default ENV's. A way to set UID of a user.
+  * 2015-11-20 - `:7.1-3`: Adding `/init/setup` compatibility.
   * 2015-11-19 - `:7.1-2`: First "kinda-working" version, lots of ideas implemented and tested.
   * 2015-11-18 - `:7.1-1`: Intitial version
 

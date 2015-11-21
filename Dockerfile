@@ -7,7 +7,8 @@ ENV REFRESHED_AT 2015-11-20
 # Override this if you need to
 ENV TZ="Europe/Oslo" TERM="xterm-256color" LANG="en_US.UTF-8" PYTHONIOENCODING="utf-8"
 
-RUN yum upgrade -y && yum install -y epel-release && mkdir /tmp/sockets && \
+RUN useradd -u 950 -U -s /bin/false -M -r -G users docker && \
+    yum upgrade -y && yum install -y epel-release && mkdir /tmp/sockets && \
     yum install -y python-pip && pip install --upgrade pip && \
     pip install supervisor && \
     yum clean all
