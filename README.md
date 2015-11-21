@@ -59,7 +59,7 @@ Each tag in this repository is getting build as it's corresponding docker-tag. T
 * `latest` is bound to the `master` branch. Careful using this :)
 
 * Changelog
-  * 2015-11-21 - `:7.1-4`: Fixing supervisorctl, it didnt work. Added sane default ENV's. A way to set UID of a user.
+  * 2015-11-21 - `:7.1-4`: Fixing supervisorctl, it didnt work. Added sane default ENV's. `docker`-user with configurable UID/GID.
   * 2015-11-20 - `:7.1-3`: Adding `/init/setup` compatibility.
   * 2015-11-19 - `:7.1-2`: First "kinda-working" version, lots of ideas implemented and tested.
   * 2015-11-18 - `:7.1-1`: Intitial version
