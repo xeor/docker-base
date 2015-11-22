@@ -9,32 +9,6 @@ PID=; trap '[[ ${PID} ]] && kill ${PID}; exit 0' SIGTERM
 
 [[ -x "/hooks/supervisord-pre" ]] && /hooks/supervisord-pre
 
-supervisord_cmd="/usr/bin/supervisord -n -c /etc/supervisord.conf"
-
-${supervisord_cmd} -e ${SUPERVISORD_LOGLEVEL:-error} & PID=$!
-
-# supervisord startup delay isnt in effect since we are sending it to the backround..
-echo -n "Waiting for supervisord to start"
-count=0
-while [[ ! -e "/tmp/sockets/supervisord.sock" ]]; do
-  echo -n "."; sleep ${SUPERVISORD_WAIT_TIME:-0.2}
-  if ! (( ${count} % ${SUPERVISORD_CHECK_EVERY:-5} )); then
-    if [[ ! -d "/proc/${PID}" ]]; then
-      # Woops.. Supervisord died. This might be a configuration error.
-      echo "supervisord wasnt able to start here is whats happening when we try"
-      set -x
-      ${supervisord_cmd} -e debug
-      exit 1
-    fi
-  fi
-  (( count++ ))
-  if [[ ${count} == ${SUPERVISORD_MAX_START_TRIES:-0} ]]; then
-    echo "We have reached the max amount of tries to wait for supervisord to start."
-    exit 2
-  fi
-done
-echo " OK"
-
-[[ -x "/hooks/supervisord-ready" ]] && /hooks/supervisord-ready
+/usr/bin/supervisord -n -c /etc/supervisord.conf -e ${SUPERVISORD_LOGLEVEL:-error} & PID=$!
 
 wait

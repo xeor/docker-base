@@ -8,9 +8,6 @@ Use `FROM xeor/base` on top of your `Dockerfile` to use this base-image.
 * `DOCKER_DEBUG`: Sets docker-startup scripts in debugger mode (`set -x` and so on), and print some extra information regarding startup.
 * `DEPENDING_ENVIRONMENT_VARS`: We wont start before we got all variables listed here (space separated list). We will also give an error listing the missing variables.
 * `SUPERVISORD_LOGLEVEL`: Supervisord loglevel, defaults to `error`.
-* `SUPERVISORD_WAIT_TIME`: How long between each time we check if supervisord is alive and ready. Defaults to `0.2`
-* `SUPERVISORD_CHECK_EVERY`: Check if supervisord is alive ever `X` times. Defaults to `5`.
-* `SUPERVISORD_MAX_START_TRIES`: How many times should we check if supervisord have started before we give up. `0` is unlimited and default.
 * `DUID`: The UID of the already existing `docker` user.
 * `DGID`: The GID of the already existing `docker` group.
 
@@ -46,7 +43,7 @@ Hooks are only ran if they are executable.
 * `/hooks/entrypoint-run`: Runs if `CMD` is not overridden. (ie, we are doing daemon-mode or spawns a default bash shell).
 * `/hooks/entrypoint-exec`: Runs only if `CMD` is overridden. Runs just before we execute `CMD`.
 * `/hooks/supervisord-pre`: Just before we fire up supervisord.
-* `/hooks/supervisord-ready`: Runned after we know that supervisord is ready.
+* `/hooks/supervisord-ready`: Runned after we know that supervisord is ready. This hook is triggered from supervisord itself, when it fires the `SUPERVISOR_STATE_CHANGE_RUNNING` event.
 
 * `/init/setup`: Runs right after `entrypoint-pre`, are there for backwards compatibility and because its easy to remember. Note that this file does NOT need to be executable. We will make it +x automatically if it exists.
 
