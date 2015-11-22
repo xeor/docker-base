@@ -29,6 +29,9 @@ function check_depending_env {
 
 [[ ${DOCKER_DEBUG} ]] && set -x
 
+[[ -x "/hooks/entrypoint-pre" ]] && /hooks/entrypoint-pre
+[[ -f "/init/setup" ]] && ( chmod +x /init/setup; /init/setup; )
+
 # If the Dockerfile "USER" is sat, we cant do this trick
 if [[ ${UID} == 0 ]]; then
   DUID=${DUID:-950}
@@ -42,9 +45,6 @@ else
     echo
   fi
 fi
-
-[[ -x "/hooks/entrypoint-pre" ]] && /hooks/entrypoint-pre
-[[ -f "/init/setup" ]] && ( chmod +x /init/setup; /init/setup; )
 
 case ${1} in
   run)
