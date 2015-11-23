@@ -10,6 +10,9 @@ ENV TZ="Europe/Oslo" TERM="xterm-256color" LANG="en_US.UTF-8" PYTHONIOENCODING="
 RUN useradd -u 950 -U -s /bin/false -M -r -G users docker && \
     yum upgrade -y && yum install -y epel-release && mkdir /tmp/sockets && \
     yum install -y python-pip && pip install --upgrade pip && \
+    yum install -y openssl-devel python-devel libffi-devel gcc && \
+    pip install requests[security] && \
+    yum autoremove -y openssl-devel python-devel libffi-devel gcc && \
     pip install supervisor && \
     yum clean all
 
