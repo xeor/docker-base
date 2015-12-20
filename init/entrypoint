@@ -27,10 +27,14 @@ function check_depending_env {
   fi
 }
 
+# Set exec-bit automatic. When adding hooks in a Dockerfile, we shoulnt also haveto think about setting +x
+# in the Dockerfile for the same file. If you want to disable a hook, rename it.
+chmod +x /init/setup /hooks/{entrypoint-pre,entrypoint-run,entrypoint-exec,supervisord-pre,supervisord-ready} 2> /dev/null
+
 [[ ${DOCKER_DEBUG} ]] && set -x
 
-[[ -x "/hooks/entrypoint-pre" ]] && /hooks/entrypoint-pre
-[[ -f "/init/setup" ]] && ( chmod +x /init/setup; /init/setup; )
+[[ -f "/hooks/entrypoint-pre" ]] && /hooks/entrypoint-pre
+[[ -f "/init/setup" ]] && /init/setup
 
 # If the Dockerfile "USER" is sat, we cant do this trick
 if [[ ${UID} == 0 ]]; then
@@ -49,7 +53,7 @@ fi
 case ${1} in
   run)
     check_depending_env
-    [[ -x "/hooks/entrypoint-run" ]] && /hooks/entrypoint-run
+    [[ -f "/hooks/entrypoint-run" ]] && /hooks/entrypoint-run
     if [[ -e /init/supervisord && -d /etc/supervisord.d ]]; then
       # Use exec so we replace our current process so signals can get through
       exec /bin/sh /init/supervisord
@@ -58,7 +62,7 @@ case ${1} in
     fi
     ;;
   *)
-    [[ -x "/hooks/entrypoint-exec" ]] && /hooks/entrypoint-exec
+    [[ -f "/hooks/entrypoint-exec" ]] && /hooks/entrypoint-exec
     exec $*
     ;;
 esac

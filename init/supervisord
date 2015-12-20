@@ -7,7 +7,7 @@
 # than creating a one-time process in supervisord to handle this logic.
 PID=; trap '[[ ${PID} ]] && kill ${PID}; exit 0' SIGTERM
 
-[[ -x "/hooks/supervisord-pre" ]] && /hooks/supervisord-pre
+[[ -f "/hooks/supervisord-pre" ]] && /hooks/supervisord-pre
 
 /usr/bin/supervisord -n -c /etc/supervisord.conf -e ${SUPERVISORD_LOGLEVEL:-error} & PID=$!
 

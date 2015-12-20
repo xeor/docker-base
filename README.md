@@ -37,7 +37,7 @@ There are different hooks that is ran when we startup. This is done to make it e
 
 If you want your hook to be debuggable, look for the `DOCKER_DEBUG` variable. A simple `[[ ${DOCKER_DEBUG} ]] && set -x` on top of your shell script is probably good enough.
 
-Hooks are only ran if they are executable.
+We are setting executable bit on the hooks if it is not sat! If you want to temporary disable it, rename it to eg. `.disabled` instead.
 
 * `/hooks/entrypoint-pre`: Early in the entrypoint. Before we do anything.
 * `/hooks/entrypoint-run`: Runs if `CMD` is not overridden. (ie, we are doing daemon-mode or spawns a default bash shell).
@@ -45,7 +45,7 @@ Hooks are only ran if they are executable.
 * `/hooks/supervisord-pre`: Just before we fire up supervisord.
 * `/hooks/supervisord-ready`: Runned after we know that supervisord is ready. This hook is triggered from supervisord itself, when it fires the `SUPERVISOR_STATE_CHANGE_RUNNING` event.
 
-* `/init/setup`: Runs right after `entrypoint-pre`, are there for backwards compatibility and because its easy to remember. Note that this file does NOT need to be executable. We will make it +x automatically if it exists.
+* `/init/setup`: Runs right after `entrypoint-pre`, are there for backwards compatibility and because its easy to remember.
 
 ## Other files / folders
 * `/tmp/sockets/`: An own folder for `.sock` files, if you need that. Eg, to get `overlay`-fs happy (currently no .sock file support - https://github.com/docker/docker/issues/12080).
