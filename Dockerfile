@@ -2,7 +2,7 @@ FROM centos:centos7
 
 
 MAINTAINER Lars Solberg <lars.solberg@gmail.com>
-ENV REFRESHED_AT 2015-11-20
+ENV REFRESHED_AT 2015-12-22
 
 # Override this if you need to
 ENV TZ="Europe/Oslo" TERM="xterm-256color" LANG="en_US.UTF-8" PYTHONIOENCODING="utf-8"
