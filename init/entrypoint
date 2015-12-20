@@ -27,14 +27,16 @@ function check_depending_env {
   fi
 }
 
+[[ ${DOCKER_DEBUG} ]] && set -x
+
 # Set exec-bit automatic. When adding hooks in a Dockerfile, we shoulnt also haveto think about setting +x
 # in the Dockerfile for the same file. If you want to disable a hook, rename it.
-chmod +x /init/setup /hooks/{entrypoint-pre,entrypoint-run,entrypoint-exec,supervisord-pre,supervisord-ready} 2> /dev/null
-
-[[ ${DOCKER_DEBUG} ]] && set -x
+chmod +x /init/setup /hooks/{entrypoint-pre,entrypoint-run,entrypoint-exec,supervisord-pre,supervisord-ready} 2> /dev/null || true
 
 [[ -f "/hooks/entrypoint-pre" ]] && /hooks/entrypoint-pre
 [[ -f "/init/setup" ]] && /init/setup
+
+eval ${SETUP:-}
 
 # If the Dockerfile "USER" is sat, we cant do this trick
 if [[ ${UID} == 0 ]]; then

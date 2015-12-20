@@ -10,6 +10,7 @@ Use `FROM xeor/base` on top of your `Dockerfile` to use this base-image.
 * `SUPERVISORD_LOGLEVEL`: Supervisord loglevel, defaults to `error`.
 * `DUID`: The UID of the already existing `docker` user.
 * `DGID`: The GID of the already existing `docker` group.
+* `SETUP`: This command will get ran just after the `entrypoint-pre` / `setup` script. We will run this command using `eval`, so you are free to do whatever you want here. Example usage is to use `rm` or `find` to cleanup old `.pid` files if container was not shut down cleanly. Use this variable as a temporary solution, or special solution; cleanups like that should be in the `entrypoint-pre` script.
 
 ## User
 There is a user created as default called `docker` belonging to a group called `docker`, both with GID and GID of `950`.
