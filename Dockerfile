@@ -8,7 +8,7 @@ ENV REFRESHED_AT 2015-12-22
 ENV TZ="Europe/Oslo" TERM="xterm-256color" LANG="en_US.UTF-8" PYTHONIOENCODING="utf-8"
 
 RUN useradd -u 950 -U -s /bin/false -M -r -G users docker && \
-    yum upgrade -y && yum install -y epel-release && \
+    yum upgrade -y && yum install -y epel-release inotify-tools && \
 
     # Supervisord uses this folder, it needs to exists
     mkdir /tmp/sockets && \

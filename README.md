@@ -33,6 +33,10 @@ A simple `nginx.ini` might look like this (documentation is @ http://supervisord
     stderr_logfile=/dev/stderr
     stderr_logfile_maxbytes=0
 
+## Inotify
+`inotify-tools` are installed, so you can use `inotify` without installing anything extra.
+Example, if you want to restart nginx when a file is changed. You can add a supervisord with a command parameter as something like this; `command=/bin/bash -c 'while inotifywait -e move -e create -e delete -r /etc/nginx/vhosts; do /usr/bin/supervisorctl restart nginx; done'`.
+
 ## Hooks
 There are different hooks that is ran when we startup. This is done to make it easier to implement containers that looks the same, but example runs different supervisord configs based on an environment variable (remember to have auto_start to false).
 
